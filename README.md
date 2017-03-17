@@ -7,6 +7,7 @@ User stories:
 
 Example usage:
 https://rah-timestamp-microservice.herokuapp.com/December%2015,%202015
+
 https://rah-timestamp-microservice.herokuapp.com/1450137600
 
 Example output:
