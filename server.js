@@ -1,22 +1,33 @@
-var express = require("express")
-var app = express();
+const express = require("express")
+const moment = require('moment')
+const app = express();
+
+app.get('/', (req, res) => {
+    res.status(200).send("Sample Usage: /[unix timestamp or date]")
+    })
 
 app.get('/:date', function(req, res) {
-    var monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
 
-    var data = req.params.date
+    const data = req.params.date
+    var d;
 
-    var d = new Date(/[a-z]/i.test(data) ? data : +data)
-    var natDate = monthNames[d.getMonth()] +" "+ d.getDay()+", " + d.getFullYear()
-
-    var ret = {
-        "unix": d.getTime(),
-        "natural": natDate 
+    if(/^[0-9]+$/.test(data)) {
+        d = moment.utc(data, 'X')
+    } else {
+        d = moment.utc(data, 'MMMM DD, YYYY')
     }
 
-    res.end(JSON.stringify(ret));
+    if(d.isValid()) {
+        res.status(200).send({
+            original: data,
+            unix: d.format('X'),
+            natural: d.format('MMMM DD, YYYY')
+        });
+    } else {
+        res.status(400).send("Date format error.")
+    }
 })
 
-app.listen(8080)
+app.listen(8080, () => {
+    console.log("Listening on port 8080")
+})
