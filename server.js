@@ -18,7 +18,7 @@ app.get('/:date', function(req, res) {
     if(/^[0-9]+$/.test(data)) {
         d = moment.utc(data, 'X')
     } else {
-        d = moment.utc(data, 'MMMM DD, YYYY')
+        d = moment.utc(data)
     }
 
     if(d.isValid()) {
